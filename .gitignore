@@ -1,13 +1,16 @@
 node_modules
 
+# Remix build artefacts
 /server/index.js
+/app/styles/tailwind.css
 /public/build
-preferences.arc
-sam.json
-sam.yaml
 .env
 
+# Test artefacts
 /cypress/screenshots
 /cypress/videos
 
-/app/styles/tailwind.css
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
