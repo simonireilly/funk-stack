@@ -3,6 +3,7 @@ import invariant from "tiny-invariant";
 
 import type { User } from "~/models/user.server";
 import { getUserById } from "~/models/user.server";
+import { logger } from "./logger";
 
 invariant(process.env.SESSION_SECRET, "SESSION_SECRET must be set");
 
@@ -28,6 +29,8 @@ export async function getSession(request: Request) {
 export async function getUserId(
   request: Request
 ): Promise<User["id"] | undefined> {
+  logger.info("Get userId is running");
+
   const session = await getSession(request);
   const userId = session.get(USER_SESSION_KEY);
   return userId;

@@ -7,6 +7,7 @@
       "cdk*.json",
       "**/*.d.ts",
       "**/*.js",
+      "**/*.js.map",
       "tsconfig.json",
       "package*.json",
       "yarn.lock",

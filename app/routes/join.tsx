@@ -11,8 +11,10 @@ import { getUserId, createUserSession } from "~/session.server";
 
 import { createUser, getUserByEmail } from "~/models/user.server";
 import { validateEmail } from "~/utils";
+import { logger } from "~/logger";
 
 export const loader: LoaderFunction = async ({ request }) => {
+  logger.info("Loader of join is running");
   const userId = await getUserId(request);
   if (userId) return redirect("/");
   return json({});
@@ -26,6 +28,7 @@ interface ActionData {
 }
 
 export const action: ActionFunction = async ({ request }) => {
+  logger.info("Action is running from form submit");
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");

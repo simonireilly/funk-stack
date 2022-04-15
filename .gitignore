@@ -1,7 +1,7 @@
 node_modules
 
 # Remix build artefacts
-/server/index.js
+/server/
 /app/styles/tailwind.css
 /public/build
 .env
@@ -14,3 +14,4 @@ node_modules
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+

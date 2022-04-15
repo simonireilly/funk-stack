@@ -3,19 +3,8 @@ import {
   HttpLambdaIntegration,
   HttpUrlIntegration,
 } from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
-import {
-  AssetHashType,
-  CfnOutput,
-  RemovalPolicy,
-  Stack,
-  StackProps,
-} from "aws-cdk-lib";
-import {
-  AttributeType,
-  BillingMode,
-  Table,
-  TableEncryption,
-} from "aws-cdk-lib/aws-dynamodb";
+import { CfnOutput, RemovalPolicy, Stack, StackProps } from "aws-cdk-lib";
+import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
 import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { Tracing } from "aws-cdk-lib/aws-lambda";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
@@ -29,20 +18,73 @@ export class RemixStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const sessionsTable = new Table(this, "RemixSessionsTable", {
+    const sessionsTable = new Table(this, "RemixSessionTable", {
       partitionKey: {
         name: "_idx",
         type: AttributeType.STRING,
       },
       billingMode: BillingMode.PAY_PER_REQUEST,
       removalPolicy: RemovalPolicy.DESTROY,
-      tableName: "arc-sessions",
       timeToLiveAttribute: "_ttl",
     });
 
-    const mockUserTable = new StringParameter(this, "RemixUserTable", {
+    const mockSessionTable = new StringParameter(
+      this,
+      "RemixSessionTableName",
+      {
+        parameterName: `/${this.stackName}/tables/session`,
+        stringValue: sessionsTable.tableName,
+      }
+    );
+
+    const userTable = new Table(this, "RemixUsersTable", {
+      partitionKey: {
+        name: "pk",
+        type: AttributeType.STRING,
+      },
+      billingMode: BillingMode.PAY_PER_REQUEST,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
+    const mockUserTable = new StringParameter(this, "RemixUsersTableName", {
       parameterName: `/${this.stackName}/tables/user`,
-      stringValue: sessionsTable.tableName,
+      stringValue: userTable.tableName,
+    });
+
+    const passwordTable = new Table(this, "RemixPasswordTable", {
+      partitionKey: {
+        name: "pk",
+        type: AttributeType.STRING,
+      },
+      billingMode: BillingMode.PAY_PER_REQUEST,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
+    const mockPasswordTable = new StringParameter(
+      this,
+      "RemixPasswordTableName",
+      {
+        parameterName: `/${this.stackName}/tables/password`,
+        stringValue: passwordTable.tableName,
+      }
+    );
+
+    const noteTable = new Table(this, "RemixNoteTable", {
+      partitionKey: {
+        name: "pk",
+        type: AttributeType.STRING,
+      },
+      sortKey: {
+        name: "sk",
+        type: AttributeType.STRING,
+      },
+      billingMode: BillingMode.PAY_PER_REQUEST,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
+    const mockNoteTable = new StringParameter(this, "RemixNoteTableName", {
+      parameterName: `/${this.stackName}/tables/note`,
+      stringValue: noteTable.tableName,
     });
 
     const remixServerFunction = new NodejsFunction(this, "RemixRunServer", {
@@ -54,15 +96,20 @@ export class RemixStack extends Stack {
         // TODO: Remove ARC Deps once Lambda compatibility layers are separated
         // from IaC framework dependencies like arc, SAM, and aws-cdk
         ARC_SESSION_TABLE_NAME: sessionsTable.tableName,
+        ARC_USER_TABLE_NAME: userTable.tableName,
+        ARC_PASSWORD_TABLE_NAME: passwordTable.tableName,
+        ARC_NOTE_TABLE_NAME: noteTable.tableName,
         ARC_ENV: "production",
         ARC_APP_NAME: "pop-punk",
         ARC_STACK_NAME: this.stackName,
       },
+      memorySize: 1024,
       bundling: {
         environment: {
           NODE_ENV: "production",
           ARC_ENV: "production",
         },
+        nodeModules: ["bcryptjs"],
         commandHooks: {
           beforeBundling() {
             return ["npm run build"];
@@ -79,7 +126,13 @@ export class RemixStack extends Stack {
     });
 
     mockUserTable.grantRead(remixServerFunction);
+    mockSessionTable.grantRead(remixServerFunction);
+    mockPasswordTable.grantRead(remixServerFunction);
+    mockNoteTable.grantRead(remixServerFunction);
     sessionsTable.grantReadWriteData(remixServerFunction);
+    noteTable.grantReadWriteData(remixServerFunction);
+    passwordTable.grantReadWriteData(remixServerFunction);
+    userTable.grantReadWriteData(remixServerFunction);
     remixServerFunction.addToRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
