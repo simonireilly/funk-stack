@@ -1,11 +1,13 @@
 import arc from "@architect/functions";
 import bcrypt from "bcryptjs";
 import invariant from "tiny-invariant";
+import { logger } from "~/logger";
 
 export type User = { id: `email#${string}`; email: string };
 export type Password = { password: string };
 
 export async function getUserById(id: User["id"]): Promise<User | null> {
+  logger.info("Get user by id");
   const db = await arc.tables();
   const result = await db.user.query({
     KeyConditionExpression: "pk = :pk",
@@ -18,6 +20,7 @@ export async function getUserById(id: User["id"]): Promise<User | null> {
 }
 
 export async function getUserByEmail(email: User["email"]) {
+  logger.info("Checking if existing user exists");
   return getUserById(`email#${email}`);
 }
 
@@ -38,13 +41,23 @@ export async function createUser(
   email: User["email"],
   password: Password["password"]
 ) {
-  const hashedPassword = await bcrypt.hash(password, 10);
+  logger.info("Creating user in dynamoDb");
+  let hashedPassword;
+  try {
+    logger.info("Hashing password");
+    hashedPassword = await bcrypt.hash(password, 10);
+  } catch (e) {
+    logger.error(e);
+  }
+  logger.info("Hashed password");
   const db = await arc.tables();
+  logger.info("Inserting password");
   await db.password.put({
     pk: `email#${email}`,
     password: hashedPassword,
   });
 
+  logger.info("Inserting user");
   await db.user.put({
     pk: `email#${email}`,
     email,

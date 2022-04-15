@@ -19,7 +19,7 @@ import { getUser } from "./session.server";
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: tailwindStylesheetUrl },
-    // NOTE: Architect deploys the public directory to /_static/
+    // NOTE: Cdk deploys the public directory to /_static/
     { rel: "icon", href: "/_static/favicon.ico" },
   ];
 };

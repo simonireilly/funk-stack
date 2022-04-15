@@ -12,15 +12,15 @@ export default function Index() {
             <div className="absolute inset-0">
               <img
                 className="h-full w-full object-cover"
-                src="https://user-images.githubusercontent.com/1500684/158276318-61064670-06c3-43f3-86e3-d624785b8ff7.jpg"
-                alt="Nirvana playing on stage with Kurt's jagstang guitar"
+                src=""
+                alt="Insert an image of a popular funk band that has free rights for usage"
               />
               <div className="absolute inset-0 bg-[color:rgba(255,56,56,0.5)] mix-blend-multiply" />
             </div>
             <div className="lg:pb-18 relative px-4 pt-16 pb-8 sm:px-6 sm:pt-24 sm:pb-14 lg:px-8 lg:pt-32">
               <h1 className="text-center text-6xl font-extrabold tracking-tight sm:text-8xl lg:text-9xl">
                 <span className="block uppercase text-red-500 drop-shadow-md">
-                  Grunge Stack
+                  Funk Stack
                 </span>
               </h1>
               <p className="mx-auto mt-6 max-w-lg text-center text-xl text-white sm:max-w-3xl">
