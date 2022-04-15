@@ -6,6 +6,9 @@ if (process.env.NODE_ENV !== "production") {
   require("./mocks");
 }
 
+/**
+ * Configure tracing in AWS for all http requests and all aws-sdks
+ */
 if (process.env.NODE_ENV === "production") {
   captureHTTPsGlobal(require("https"));
   captureAWS(require("aws-sdk"));

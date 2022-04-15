@@ -1,6 +1,5 @@
 import arc from "@architect/functions";
 import cuid from "cuid";
-
 import type { User } from "./user.server";
 
 export type Note = {

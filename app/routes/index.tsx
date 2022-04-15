@@ -12,8 +12,8 @@ export default function Index() {
             <div className="absolute inset-0">
               <img
                 className="h-full w-full object-cover"
-                src=""
-                alt="Insert an image of a popular funk band that has free rights for usage"
+                src="https://upload.wikimedia.org/wikipedia/commons/f/f0/DC_Funk_Parade_U_Street_2014_%2814098017511%29.jpg"
+                alt="A band plays in a park in Washington DC showing a drummer and two guitarists"
               />
               <div className="absolute inset-0 bg-[color:rgba(255,56,56,0.5)] mix-blend-multiply" />
             </div>

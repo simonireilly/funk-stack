@@ -129,10 +129,12 @@ export class RemixStack extends Stack {
     mockSessionTable.grantRead(remixServerFunction);
     mockPasswordTable.grantRead(remixServerFunction);
     mockNoteTable.grantRead(remixServerFunction);
+
     sessionsTable.grantReadWriteData(remixServerFunction);
     noteTable.grantReadWriteData(remixServerFunction);
     passwordTable.grantReadWriteData(remixServerFunction);
     userTable.grantReadWriteData(remixServerFunction);
+
     remixServerFunction.addToRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,

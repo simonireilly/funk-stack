@@ -1,11 +1,9 @@
-# Remix Pop-Punk Stack
+# Funk Stack
 
-![The Remix Pop-Punk Stack](https://repository-images.githubusercontent.com/463325363/edae4f5b-1a13-47ea-b90c-c05badc2a700)
-
-- [Remix Pop-Punk Stack](#remix-pop-punk-stack)
+- [Funk Stack](#funk-stack)
   - [What's in the stack](#whats-in-the-stack)
   - [Development](#development)
-    - [Relevant code:](#relevant-code)
+    - [Relevant code](#relevant-code)
   - [Deployment](#deployment)
   - [Where do I find my CloudFormation?](#where-do-i-find-my-cloudformation)
   - [GitHub Actions](#github-actions)
@@ -19,12 +17,12 @@
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
 ```
-npx create-remix --template remix-run/Pop-Punk-stack
+npx create-remix --template simonireilly/funk-stack
 ```
 
 ## What's in the stack
 
-- [AWS deployment](https://aws.com) with [Architect](https://arc.codes/)
+- [AWS deployment](https://aws.com) with [Architect](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html)
 - Production-ready [DynamoDB Database](https://aws.amazon.com/dynamodb/)
 - [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
 - Email/Password Authentication with [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage)
@@ -43,27 +41,25 @@ Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --
 
 - Validate the app has been set up properly (optional):
 
-  ```sh
-  npm run validate
-  ```
+```sh
+yarn validate
+```
 
 - Start dev server:
 
-  ```sh
-  npm run dev
-  ```
+```sh
+yarn dev
+```
 
-This starts your app in development mode, rebuilding assets on file changes.
+This starts your app in development mode, which hot reloads changes to AWS.
 
-### Relevant code:
+### Relevant code
 
-This is a pretty simple note-taking app, but it's a good example of how you can build a full stack app with Architect and Remix. The main functionality is creating users, logging in and out, and creating and deleting notes.
+This is a pretty simple note-taking app, but it's a good example of how you can build a full stack app with aws-cdk and Remix. The main functionality is creating users, logging in and out, and creating and deleting notes.
 
 - creating users, and logging in and out [./app/models/user.server.ts](./app/models/user.server.ts)
 - user sessions, and verifying them [./app/session.server.ts](./app/session.server.ts)
 - creating, and deleting notes [./app/models/note.server.ts](./app/models/note.server.ts)
-
-The database that comes with `arc sandbox` is an in memory database, so if you restart the server, you'll lose your data. The Staging and Production environments won't behave this way, instead they'll persist the data in DynamoDB between deployments and Lambda executions.
 
 ## Deployment
 
