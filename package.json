@@ -1,5 +1,5 @@
 {
-  "name": "pop-punk-stack-template",
+  "name": "funk-stack-template",
   "description": "",
   "dependencies": {
     "@remix-run/node": "*",
@@ -8,7 +8,7 @@
     "aws-xray-sdk": "^3.3.4",
     "bcryptjs": "2.4.3",
     "cuid": "^2.1.8",
-    "pino": "^7.10.0",
+    "pino": "7.10.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "tiny-invariant": "^1.2.0"

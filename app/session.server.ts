@@ -1,3 +1,6 @@
+// TODO: It very much looks like sessions are being managed just in memory here
+//
+// So we need to find a way not to do that
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import invariant from "tiny-invariant";
 

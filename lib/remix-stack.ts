@@ -3,61 +3,26 @@ import {
   HttpLambdaIntegration,
   HttpUrlIntegration,
 } from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
-import { CfnOutput, RemovalPolicy, Stack, StackProps } from "aws-cdk-lib";
-import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
-import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { CfnOutput, Stack, StackProps } from "aws-cdk-lib";
 import { Tracing } from "aws-cdk-lib/aws-lambda";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Bucket } from "aws-cdk-lib/aws-s3";
 import { BucketDeployment, Source } from "aws-cdk-lib/aws-s3-deployment";
-import { StringParameter } from "aws-cdk-lib/aws-ssm";
 import { Construct } from "constructs";
 import { join } from "path";
+import { ITables } from "./tables-stack";
 
+/**
+ * This stack deploys remix server to an AWS lambda behind a HTTP APIGateway
+ *
+ * It is also deploying the static assets to an s3 bucket, and, proxying to
+ * those assets through the APIGateway.
+ */
 export class RemixStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: Construct, id: string, props: StackProps & ITables) {
     super(scope, id, props);
 
-    const sessionsTable = new Table(this, "RemixSessionTable", {
-      partitionKey: {
-        name: "_idx",
-        type: AttributeType.STRING,
-      },
-      billingMode: BillingMode.PAY_PER_REQUEST,
-      removalPolicy: RemovalPolicy.DESTROY,
-      timeToLiveAttribute: "_ttl",
-    });
-
-    const userTable = new Table(this, "RemixUsersTable", {
-      partitionKey: {
-        name: "pk",
-        type: AttributeType.STRING,
-      },
-      billingMode: BillingMode.PAY_PER_REQUEST,
-      removalPolicy: RemovalPolicy.DESTROY,
-    });
-
-    const passwordTable = new Table(this, "RemixPasswordTable", {
-      partitionKey: {
-        name: "pk",
-        type: AttributeType.STRING,
-      },
-      billingMode: BillingMode.PAY_PER_REQUEST,
-      removalPolicy: RemovalPolicy.DESTROY,
-    });
-
-    const noteTable = new Table(this, "RemixNoteTable", {
-      partitionKey: {
-        name: "pk",
-        type: AttributeType.STRING,
-      },
-      sortKey: {
-        name: "sk",
-        type: AttributeType.STRING,
-      },
-      billingMode: BillingMode.PAY_PER_REQUEST,
-      removalPolicy: RemovalPolicy.DESTROY,
-    });
+    const { sessionsTable, userTable, passwordTable, noteTable } = props;
 
     const remixServerFunction = new NodejsFunction(this, "RemixRunServer", {
       entry: join(__dirname, "..", "/server/index.js"),
@@ -95,27 +60,13 @@ export class RemixStack extends Stack {
     passwordTable.grantReadWriteData(remixServerFunction);
     userTable.grantReadWriteData(remixServerFunction);
 
-    remixServerFunction.addToRolePolicy(
-      new PolicyStatement({
-        effect: Effect.ALLOW,
-        actions: ["ssm:GetParametersByPath"],
-        resources: [
-          this.formatArn({
-            service: "ssm",
-            resource: "parameter",
-            resourceName: this.stackName,
-          }),
-        ],
-      })
-    );
-
     const websiteBucket = new Bucket(this, "WebsiteBucket", {
       websiteIndexDocument: "index.html",
       websiteErrorDocument: "404.html",
       publicReadAccess: true,
     });
 
-    const bucket = new BucketDeployment(this, "DeployWebsite", {
+    new BucketDeployment(this, "DeployWebsite", {
       sources: [Source.asset("./public", {})],
       prune: false,
       destinationBucket: websiteBucket,
