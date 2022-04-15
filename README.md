@@ -2,6 +2,7 @@
 
 - [Funk Stack](#funk-stack)
   - [What's in the stack](#whats-in-the-stack)
+  - [Architecture](#architecture)
   - [Development](#development)
     - [Relevant code](#relevant-code)
   - [Deployment](#deployment)
@@ -37,6 +38,12 @@ npx create-remix --template simonireilly/funk-stack
 
 Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --template your/repo`! Make it your own.
 
+## Architecture
+
+The diagram is provided by [cdk-dia](https://www.npmjs.com/package/cdk-dia).
+
+![The aws-sdk infrastructure diagram for what is deployed by the funk stack](./diagram.png)
+
 ## Development
 
 - Validate the app has been set up properly (optional):
@@ -63,26 +70,11 @@ This is a pretty simple note-taking app, but it's a good example of how you can 
 
 ## Deployment
 
-This Remix Stack comes with two GitHub Actions that handle automatically deploying your app to production and staging environments. By default, Arc will deploy to the `us-west-2` region, if you wish to deploy to a different region, you'll need to change your [`app.arc`](https://arc.codes/docs/en/reference/project-manifest/aws)
+Deployments to AWS are managed by the AWS CDK.
 
-Prior to your first deployment, you'll need to do a few things:
-
-- Create a new [GitHub repo](https://repo.new)
-
-- [Sign up](https://portal.aws.amazon.com/billing/signup#/start) and login to your AWS account
-
-- Add `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` to [your GitHub repo's secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets). Go to your AWS [security credentials](https://console.aws.amazon.com/iam/home?region=us-west-2#/security_credentials) and click on the "Access keys" tab, and then click "Create New Access Key", then you can copy those and add them to your repo's secrets.
-
-- Along with your AWS credentials, you'll also need to give your CloudFormation a `SESSION_SECRET` variable of its own for both staging and production environments, as well as an `ARC_APP_SECRET` for Arc itself.
-
-  ```sh
-  npx arc env --add --env staging ARC_APP_SECRET $(openssl rand -hex 32)
-  npx arc env --add --env staging SESSION_SECRET $(openssl rand -hex 32)
-  npx arc env --add --env production ARC_APP_SECRET $(openssl rand -hex 32)
-  npx arc env --add --env production SESSION_SECRET $(openssl rand -hex 32)
-  ```
-
-  If you don't have openssl installed, you can also use [1password](https://1password.com/password-generator) to generate a random secret, just replace `$(openssl rand -hex 32)` with the generated secret.
+```
+yarn cdk deploy
+```
 
 ## Where do I find my CloudFormation?
 

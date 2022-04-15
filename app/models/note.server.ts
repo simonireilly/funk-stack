@@ -1,5 +1,5 @@
-import arc from "@architect/functions";
 import cuid from "cuid";
+import { db } from "~/ports/db";
 import type { User } from "./user.server";
 
 export type Note = {
@@ -9,9 +9,11 @@ export type Note = {
   body: string;
 };
 
+type NoteSk = `note#${Note["id"]}`;
+
 type NoteItem = {
   pk: User["id"];
-  sk: `note#${Note["id"]}`;
+  sk: NoteSk;
 };
 
 const skToId = (sk: NoteItem["sk"]): Note["id"] => sk.replace(/^note#/, "");
@@ -21,16 +23,24 @@ export async function getNote({
   id,
   userId,
 }: Pick<Note, "id" | "userId">): Promise<Note | null> {
-  const db = await arc.tables();
+  const result = await db.documentClient
+    .get({
+      TableName: db.tables.notes,
+      Key: {
+        pk: userId,
+        sk: idToSk(id),
+      },
+    })
+    .promise();
 
-  const result = await await db.note.get({ pk: userId, sk: idToSk(id) });
+  const record = result.Item;
 
-  if (result) {
+  if (record) {
     return {
-      userId: result.pk,
-      id: result.sk,
-      title: result.title,
-      body: result.body,
+      userId: record?.pk,
+      id: record?.sk,
+      title: record?.title,
+      body: record?.body,
     };
   }
   return null;
@@ -39,17 +49,24 @@ export async function getNote({
 export async function getNoteListItems({
   userId,
 }: Pick<Note, "userId">): Promise<Array<Pick<Note, "id" | "title">>> {
-  const db = await arc.tables();
+  const result = await db.documentClient
+    .query({
+      TableName: db.tables.notes,
+      KeyConditionExpression: "pk = :pk",
+      ExpressionAttributeValues: { ":pk": userId },
+    })
+    .promise();
 
-  const result = await db.note.query({
-    KeyConditionExpression: "pk = :pk",
-    ExpressionAttributeValues: { ":pk": userId },
-  });
+  const records = result.Items;
 
-  return result.Items.map((n: any) => ({
-    title: n.title,
-    id: skToId(n.sk),
-  }));
+  if (records) {
+    return records.map((n: any) => ({
+      title: n.title,
+      id: skToId(n.sk),
+    }));
+  }
+
+  return [];
 }
 
 export async function createNote({
@@ -57,23 +74,35 @@ export async function createNote({
   title,
   userId,
 }: Pick<Note, "body" | "title" | "userId">): Promise<Note> {
-  const db = await arc.tables();
+  const sk = `note#${cuid()}` as NoteSk;
+  await db.documentClient
+    .put({
+      TableName: db.tables.notes,
+      Item: {
+        pk: userId,
+        sk: `note#${cuid()}`,
+        title: title,
+        body: body,
+      },
+    })
+    .promise();
 
-  const result = await db.note.put({
-    pk: userId,
-    sk: `note#${cuid()}`,
+  return {
+    id: skToId(sk),
+    userId,
     title: title,
     body: body,
-  });
-  return {
-    id: skToId(result.sk),
-    userId: result.pk,
-    title: result.title,
-    body: result.body,
   };
 }
 
 export async function deleteNote({ id, userId }: Pick<Note, "id" | "userId">) {
-  const db = await arc.tables();
-  return db.note.delete({ pk: userId, sk: idToSk(id) });
+  return db.documentClient
+    .delete({
+      TableName: db.tables.notes,
+      Key: {
+        pk: userId,
+        sk: idToSk(id),
+      },
+    })
+    .promise();
 }
