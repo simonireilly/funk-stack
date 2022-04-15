@@ -28,15 +28,6 @@ export class RemixStack extends Stack {
       timeToLiveAttribute: "_ttl",
     });
 
-    const mockSessionTable = new StringParameter(
-      this,
-      "RemixSessionTableName",
-      {
-        parameterName: `/${this.stackName}/tables/session`,
-        stringValue: sessionsTable.tableName,
-      }
-    );
-
     const userTable = new Table(this, "RemixUsersTable", {
       partitionKey: {
         name: "pk",
@@ -44,11 +35,6 @@ export class RemixStack extends Stack {
       },
       billingMode: BillingMode.PAY_PER_REQUEST,
       removalPolicy: RemovalPolicy.DESTROY,
-    });
-
-    const mockUserTable = new StringParameter(this, "RemixUsersTableName", {
-      parameterName: `/${this.stackName}/tables/user`,
-      stringValue: userTable.tableName,
     });
 
     const passwordTable = new Table(this, "RemixPasswordTable", {
@@ -59,15 +45,6 @@ export class RemixStack extends Stack {
       billingMode: BillingMode.PAY_PER_REQUEST,
       removalPolicy: RemovalPolicy.DESTROY,
     });
-
-    const mockPasswordTable = new StringParameter(
-      this,
-      "RemixPasswordTableName",
-      {
-        parameterName: `/${this.stackName}/tables/password`,
-        stringValue: passwordTable.tableName,
-      }
-    );
 
     const noteTable = new Table(this, "RemixNoteTable", {
       partitionKey: {
@@ -82,34 +59,22 @@ export class RemixStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const mockNoteTable = new StringParameter(this, "RemixNoteTableName", {
-      parameterName: `/${this.stackName}/tables/note`,
-      stringValue: noteTable.tableName,
-    });
-
     const remixServerFunction = new NodejsFunction(this, "RemixRunServer", {
       entry: join(__dirname, "..", "/server/index.js"),
       handler: "handler",
       environment: {
         NODE_ENV: "production",
         SESSION_SECRET: "basic-secret-for-lambda",
-        // TODO: Remove ARC Deps once Lambda compatibility layers are separated
-        // from IaC framework dependencies like arc, SAM, and aws-cdk
-        ARC_SESSION_TABLE_NAME: sessionsTable.tableName,
-        ARC_USER_TABLE_NAME: userTable.tableName,
-        ARC_PASSWORD_TABLE_NAME: passwordTable.tableName,
-        ARC_NOTE_TABLE_NAME: noteTable.tableName,
-        ARC_ENV: "production",
-        ARC_APP_NAME: "pop-punk",
-        ARC_STACK_NAME: this.stackName,
+        DYNAMODB_SESSION_TABLE_NAME: sessionsTable.tableName,
+        DYNAMODB_USER_TABLE_NAME: userTable.tableName,
+        DYNAMODB_PASSWORD_TABLE_NAME: passwordTable.tableName,
+        DYNAMODB_NOTE_TABLE_NAME: noteTable.tableName,
       },
       memorySize: 1024,
       bundling: {
         environment: {
           NODE_ENV: "production",
-          ARC_ENV: "production",
         },
-        nodeModules: ["bcryptjs"],
         commandHooks: {
           beforeBundling() {
             return ["npm run build"];
@@ -124,11 +89,6 @@ export class RemixStack extends Stack {
       },
       tracing: Tracing.ACTIVE,
     });
-
-    mockUserTable.grantRead(remixServerFunction);
-    mockSessionTable.grantRead(remixServerFunction);
-    mockPasswordTable.grantRead(remixServerFunction);
-    mockNoteTable.grantRead(remixServerFunction);
 
     sessionsTable.grantReadWriteData(remixServerFunction);
     noteTable.grantReadWriteData(remixServerFunction);

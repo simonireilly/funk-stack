@@ -2,9 +2,6 @@
   "name": "pop-punk-stack-template",
   "description": "",
   "dependencies": {
-    "@architect/architect": "^10.2.1",
-    "@architect/functions": "^5.0.4",
-    "@remix-run/architect": "*",
     "@remix-run/node": "*",
     "@remix-run/react": "*",
     "@remix-run/server-runtime": "*",
@@ -26,7 +23,6 @@
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^14.0.4",
-    "@types/architect__functions": "^3.13.6",
     "@types/bcryptjs": "2.4.2",
     "@types/eslint": "^8.4.1",
     "@types/react": "^17.0.43",

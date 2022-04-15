@@ -15,3 +15,5 @@ node_modules
 .cdk.staging
 cdk.out
 
+# Ignore graphviz files
+*.dot

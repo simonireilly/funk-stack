@@ -1,9 +1,13 @@
+import type {
+  AppLoadContext,
+  Response as NodeResponse,
+  ServerBuild,
+} from "@remix-run/node";
 import {
-  // This has been added as a global in node 15+
   AbortController,
+  createRequestHandler as createRemixRequestHandler,
   Headers as NodeHeaders,
   Request as NodeRequest,
-  createRequestHandler as createRemixRequestHandler,
 } from "@remix-run/node";
 import type {
   APIGatewayProxyEventHeaders,
@@ -11,13 +15,8 @@ import type {
   APIGatewayProxyHandlerV2,
   APIGatewayProxyStructuredResultV2,
 } from "aws-lambda";
-import type {
-  AppLoadContext,
-  ServerBuild,
-  Response as NodeResponse,
-} from "@remix-run/node";
-
 import { isBinaryType } from "./binaryTypes";
+import { requestLogger } from "./utils/aws";
 
 /**
  * A function that returns the value to use as `context` in route `loader` and
@@ -47,8 +46,10 @@ export function createRequestHandler({
 }): RequestHandler {
   let handleRequest = createRemixRequestHandler(build, mode);
 
-  return async (event /*, context*/) => {
-    console.info("Received request to AWS-LAMBDA");
+  return async (event, context) => {
+    const logger = requestLogger(event, context);
+
+    logger.info("Received request");
     let abortController = new AbortController();
     let request = createRemixRequest(event, abortController);
     let loadContext =
@@ -58,6 +59,8 @@ export function createRequestHandler({
       request as unknown as Request,
       loadContext
     )) as unknown as NodeResponse;
+
+    logger.info("Sending response");
 
     return sendRemixResponse(response, abortController);
   };

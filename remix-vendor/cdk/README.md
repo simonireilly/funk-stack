@@ -1,3 +1,5 @@
-# Welcome to Remix *Vendor*
+# Welcome to Remix _Vendor_
 
-This local vendor breaks out compatibility layers from lambda from remix-run/architect in an effort to allow any IaC solution to deploy remix-run top AWS Lambda.
+This package lives locally, and adds session support for AWS dynamoDB.
+
+It is an attempt to provide framework agnostic implementations for a DynamoDB session storage.
