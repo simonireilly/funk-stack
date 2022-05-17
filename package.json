@@ -53,7 +53,7 @@
     "vitest": "^0.8.2"
   },
   "engines": {
-    "node": "14"
+    "node": ">=14"
   },
   "eslintIgnore": [
     "/node_modules",
