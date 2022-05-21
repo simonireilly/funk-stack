@@ -12,14 +12,14 @@ export default function Index() {
             <div className="absolute inset-0">
               <img
                 className="h-full w-full object-cover"
-                src="https://upload.wikimedia.org/wikipedia/commons/f/f0/DC_Funk_Parade_U_Street_2014_%2814098017511%29.jpg"
+                src="https://user-images.githubusercontent.com/30017294/169662695-9223d20d-68fc-43dc-8413-9232c26682df.jpg"
                 alt="A band plays in a park in Washington DC showing a drummer and two guitarists"
               />
-              <div className="absolute inset-0 bg-[color:rgba(255,56,56,0.5)] mix-blend-multiply" />
+              <div className="absolute inset-0 bg-[color:rgba(56,255,56,0.5)] mix-blend-multiply" />
             </div>
             <div className="lg:pb-18 relative px-4 pt-16 pb-8 sm:px-6 sm:pt-24 sm:pb-14 lg:px-8 lg:pt-32">
               <h1 className="text-center text-6xl font-extrabold tracking-tight sm:text-8xl lg:text-9xl">
-                <span className="block uppercase text-red-500 drop-shadow-md">
+                <span className="block uppercase text-green-500 drop-shadow-md">
                   Funk Stack
                 </span>
               </h1>
@@ -31,7 +31,7 @@ export default function Index() {
                 {user ? (
                   <Link
                     to="/notes"
-                    className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-red-700 shadow-sm hover:bg-red-50 sm:px-8"
+                    className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-green-700 shadow-sm hover:bg-green-50 sm:px-8"
                   >
                     View Notes for {user.email}
                   </Link>
@@ -39,13 +39,13 @@ export default function Index() {
                   <div className="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0">
                     <Link
                       to="/join"
-                      className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-red-700 shadow-sm hover:bg-red-50 sm:px-8"
+                      className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-green-700 shadow-sm hover:bg-green-50 sm:px-8"
                     >
                       Sign up
                     </Link>
                     <Link
                       to="/login"
-                      className="flex items-center justify-center rounded-md bg-red-500 px-4 py-3 font-medium text-white hover:bg-red-600  "
+                      className="flex items-center justify-center rounded-md bg-green-500 px-4 py-3 font-medium text-white hover:bg-green-600  "
                     >
                       Log In
                     </Link>
@@ -77,9 +77,9 @@ export default function Index() {
                 href: "https://aws.amazon.com/dynamodb/",
               },
               {
-                src: "https://user-images.githubusercontent.com/1500684/157990874-31f015c3-2af7-4669-9d61-519e5ecfdea6.svg",
-                alt: "Architect",
-                href: "https://arc.codes",
+                src: "https://docs.aws.amazon.com/cdk/api/v2/img/cdk-logo-small.png",
+                alt: "AWS CDK",
+                href: "https://docs.aws.amazon.com/cdk/api/v2/",
               },
               {
                 src: "https://user-images.githubusercontent.com/1500684/157764276-a516a239-e377-4a20-b44a-0ac7b65c8c14.svg",

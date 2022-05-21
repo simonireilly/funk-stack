@@ -1,15 +1,16 @@
 # Funk Stack
 
+![Placeholder image of the funk stack web page](funk-stack-placeholder-image.png)
+
 - [Funk Stack](#funk-stack)
   - [What's in the stack](#whats-in-the-stack)
   - [Architecture](#architecture)
   - [Development](#development)
     - [Relevant code](#relevant-code)
   - [Deployment](#deployment)
-  - [Where do I find my CloudFormation?](#where-do-i-find-my-cloudformation)
   - [GitHub Actions](#github-actions)
   - [Testing](#testing)
-    - [Cypress](#cypress)
+    - [Cypress (WIP)](#cypress-wip)
     - [Vitest](#vitest)
     - [Type Checking](#type-checking)
     - [Linting](#linting)
@@ -23,11 +24,11 @@ npx create-remix --template simonireilly/funk-stack
 
 ## What's in the stack
 
-- [AWS deployment](https://aws.com) with [Architect](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html)
+- [AWS deployment](https://aws.com) with [AWS CDK](https://docs.aws.amazon.com/cdk/api/v2/)
 - Production-ready [DynamoDB Database](https://aws.amazon.com/dynamodb/)
 - [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
 - Email/Password Authentication with [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage)
-- DynamoDB access via [`arc.tables`](https://arc.codes/docs/en/reference/runtime-helpers/node.js#arc.tables)
+- DynamoDB access via [`aws-sdk`](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/welcome.html)
 - Styling with [Tailwind](https://tailwindcss.com/)
 - End-to-end testing with [Cypress](https://cypress.io)
 - Local third party request mocking with [MSW](https://mswjs.io)
@@ -46,11 +47,7 @@ The diagram is provided by [cdk-dia](https://www.npmjs.com/package/cdk-dia).
 
 ## Development
 
-- Validate the app has been set up properly (optional):
-
-```sh
-yarn validate
-```
+You need to have valid AWS credentials to run dev in live reload mode
 
 - Start dev server:
 
@@ -76,17 +73,15 @@ Deployments to AWS are managed by the AWS CDK.
 yarn cdk deploy
 ```
 
-## Where do I find my CloudFormation?
-
-TBD
-
 ## GitHub Actions
 
-We use GitHub Actions for continuous integration and deployment. Anything that gets into the `main` branch will be deployed to production after running tests/build/etc. Anything in the `dev` branch will be deployed to staging.
+The github actions are based on those blogged here:
+
+> [Secure AWS-CDK deployments with GitHub Actions](https://dev.to/simonireilly/secure-aws-cdk-deployments-with-github-actions-3jfk)
 
 ## Testing
 
-### Cypress
+### Cypress (WIP)
 
 We use Cypress for our End-to-End tests in this project. You'll find those in the `cypress` directory. As you make changes, add to an existing file or create a new file in the `cypress/e2e` directory to test your changes.
 
