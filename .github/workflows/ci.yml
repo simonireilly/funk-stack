@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 env:
-  AWS_ACCOUNT_ID: 1122334455
+  AWS_ACCOUNT_ID: 199114905090
   AWS_REGION: "eu-west-1"
 
 defaults:
@@ -119,7 +119,7 @@ jobs:
   deploy:
     needs: [lint, typecheck, vitest]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
 
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -149,4 +149,4 @@ jobs:
         run: yarn cdk synth
 
       - name: Deploy infrastructure stack
-        run: yarn cdk deploy --require-approval never RemixTables RemixStack
+        run: yarn cdk deploy --require-approval never RemixStack
