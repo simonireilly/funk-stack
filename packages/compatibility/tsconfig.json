@@ -13,8 +13,7 @@
 
     "outDir": "dist",
     "rootDir": ".",
-    "composite": true,
-    
+    "composite": true
   },
   "exclude": ["__tests__"]
 }
