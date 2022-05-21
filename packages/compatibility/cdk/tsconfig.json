@@ -1,7 +1,7 @@
 {
   "exclude": ["architect/__tests__"],
   "compilerOptions": {
-    "lib": ["ES2019", "DOM.Iterable"],
+    "lib": ["ES2019", "DOM.Iterable", "DOM"],
     "target": "ES2019",
 
     "moduleResolution": "node",

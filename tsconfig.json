@@ -1,5 +1,5 @@
 {
-  "exclude": ["./cypress", "remix-vendor/cdk/__tests__"],
+  "exclude": ["./cypress", "packages/compatibility/cdk/__tests__"],
   "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
@@ -17,7 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "@remix-vendor/*": ["./remix-vendor/*"],
+      "@remix-vendor/*": ["./packages/compatibility/*"],
     },
     "skipLibCheck": true,
     "declaration": true,
