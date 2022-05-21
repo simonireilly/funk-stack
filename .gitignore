@@ -28,3 +28,9 @@ cdk.out
 
 # Log files
 *.log
+
+# Coverage files
+coverage
+
+# Ignore linted caches
+.eslintcache

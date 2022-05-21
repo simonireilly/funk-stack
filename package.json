@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "author": "simonireilly <simonireilly@gmail.com>",
   "devDependencies": {
+    "husky": "^7.0.0",
     "lerna": "^4.0.0",
     "syncpack": "^7.2.1"
+  },
+  "engines": {
+    "node": ">=16"
   },
   "license": "MIT",
   "main": "index.js",
@@ -16,15 +20,14 @@
     "fmt": "syncpack fix-mismatches && syncpack format",
     "lint": "lerna run --parallel lint",
     "lint:fix": "lerna run --parallel lint -- --fix",
+    "prepare": "husky install",
     "test": "lerna run --parallel test",
+    "test:coverage": "lerna run --parallel test -- --coverage",
     "typecheck": "lerna run --parallel typecheck"
   },
   "workspaces": {
     "packages": [
       "packages/*"
     ]
-  },
-  "engines": {
-    "node": ">=14"
   }
 }

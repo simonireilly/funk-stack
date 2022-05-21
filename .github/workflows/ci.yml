@@ -86,7 +86,7 @@ jobs:
         run: yarn
 
       - name: ⚡ Run vitest
-        run: yarn test -- --coverage
+        run: yarn test:coverage
 
   # cypress:
   #   name: ⚫️ Cypress

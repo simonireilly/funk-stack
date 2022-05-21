@@ -20,7 +20,7 @@
   "license": "MIT",
   "repository": "remix-run/remix",
   "scripts": {
-    "test": "jest",
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "test": "jest"
   }
 }
