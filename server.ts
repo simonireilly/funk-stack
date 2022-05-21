@@ -1,4 +1,4 @@
-import { createRequestHandler } from "@remix-vendor/cdk";
+import { createRequestHandler } from "@remix-run/architect";
 import * as build from "@remix-run/dev/server-build";
 import { captureHTTPsGlobal, captureAWS } from "aws-xray-sdk";
 

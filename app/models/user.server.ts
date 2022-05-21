@@ -1,5 +1,5 @@
 // @ts-ignore
-import { documentClient } from "@remix-vendor/cdk";
+import { documentClient } from "../tools/aws";
 import bcrypt from "bcryptjs";
 import invariant from "tiny-invariant";
 import { logger } from "~/logger";

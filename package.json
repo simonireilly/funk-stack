@@ -2,6 +2,7 @@
   "name": "funk-stack-template",
   "description": "",
   "dependencies": {
+    "@remix-run/architect": "^1.5.1",
     "@remix-run/node": "*",
     "@remix-run/react": "*",
     "@remix-run/server-runtime": "*",

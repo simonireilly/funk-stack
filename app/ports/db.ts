@@ -9,7 +9,7 @@
  *
  */
 // @ts-ignore
-import { documentClient, capturedClient } from "@remix-vendor/cdk";
+import { documentClient, capturedClient } from "../tools/aws";
 
 export const db = {
   tables: {

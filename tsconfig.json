@@ -17,7 +17,6 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "@remix-vendor/*": ["./packages/compatibility/*"],
     },
     "skipLibCheck": true,
     "declaration": true,
