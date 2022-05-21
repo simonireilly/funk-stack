@@ -37,6 +37,9 @@ jobs:
           node-version: 14
           cache: "yarn"
 
+      - name: ⚙️ Install deps
+        run: yarn
+
       - name: 🔬 Lint
         run: yarn lint
 
@@ -55,6 +58,9 @@ jobs:
         with:
           node-version: 14
           cache: "yarn"
+
+      - name: ⚙️ Install deps
+        run: yarn
 
       - name: 🔎 Type check
         run: yarn typecheck --if-present
@@ -127,6 +133,9 @@ jobs:
         with:
           node-version: 14
           cache: "yarn"
+
+      - name: ⚙️ Install deps
+        run: yarn
 
       - name: Assume role using OIDC
         uses: aws-actions/configure-aws-credentials@master
