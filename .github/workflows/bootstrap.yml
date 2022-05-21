@@ -38,7 +38,10 @@ jobs:
 
       - run: yarn install
 
-      - name: Synth stack
+      - name: Build any deps
+        run: yarn build
+
+      - name: Bootstrap aws cdk account
         run: yarn cdk bootstrap
 
       - name: Synth stack
