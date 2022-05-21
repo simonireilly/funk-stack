@@ -71,7 +71,7 @@
     "build:css": "npm run generate:css -- --minify",
     "build:remix": "remix build",
     "dev": "run-p dev:*",
-    "dev:arc": "cdk watch",
+    "dev:arc": "cdk watch RemixStack",
     "dev:css": "npm run generate:css -- --watch",
     "dev:remix": "remix watch",
     "cdk": "cdk",
