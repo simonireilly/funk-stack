@@ -4,10 +4,12 @@ on:
     branches:
       - main
       - dev
-  pull_request: {}
+  pull_request:
+    branches:
+      - main
 permissions:
-    actions: write
-    contents: read
+  actions: write
+  contents: read
 
 defaults:
   run:
@@ -133,38 +135,16 @@ jobs:
         with:
           node-version: 14
 
-      - name: 👀 Env
-        run: |
-          echo "Event name: ${{ github.event_name }}"
-          echo "Git ref:    ${{ github.ref }}"
-          echo "GH actor:   ${{ github.actor }}"
-          echo "SHA:        ${{ github.sha }}"
-          VER=`node --version`; echo "Node ver:   $VER"
-          VER=`npm --version`; echo "npm ver:    $VER"
-
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
+      - name: Assume role using OIDC
+        uses: aws-actions/configure-aws-credentials@master
         with:
-          useLockFile: false
+          role-to-assume: arn:aws:iam::<your-account-id-here>:role/github-ci-role
+          aws-region: ${{ env.AWS_REGION }}
 
-      - name: 🏗 Build
-        run: npm run build
+      - run: yarn install
 
-      - name: 🛠 Install Arc
-        run: npm i -g @architect/architect
+      - name: Synth infrastructure stack
+        run: yarn cdk synth
 
-      - name: 🚀 Staging Deploy
-        if: github.ref == 'refs/heads/dev'
-        run: arc deploy --staging --prune
-        env:
-          CI: true
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: 🚀 Production Deploy
-        if: github.ref == 'refs/heads/main'
-        run: arc deploy --production --prune
-        env:
-          CI: true
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Deploy infrastructure stack
+        run: yarn cdk deploy --require-approval never RemixTables RemixStack
