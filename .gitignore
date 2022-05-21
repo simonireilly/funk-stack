@@ -6,11 +6,12 @@ pnpm-lock.yaml
 pnpm-lock.yml
 
 node_modules
+dist
 
 # Remix build artefacts
-/server/
-/app/styles/tailwind.css
-/public/build
+packages/template/server/
+packages/template/app/styles/tailwind.css
+packages/template/public/build
 .env
 
 # Test artefacts
@@ -24,3 +25,6 @@ cdk.out
 
 # Ignore graphviz files
 *.dot
+
+# Log files
+*.log

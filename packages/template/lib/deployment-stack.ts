@@ -7,8 +7,8 @@ import {
   PolicyStatement,
   Role,
 } from "aws-cdk-lib/aws-iam";
-import { Construct } from "constructs";
-import { BaseAppProps } from "../bin/funk-stack";
+import type { Construct } from "constructs";
+import type { BaseAppProps } from "../bin/funk-stack";
 
 export class GithubActionsStack extends Stack {
   constructor(scope: Construct, id: string, props: BaseAppProps) {

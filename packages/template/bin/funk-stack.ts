@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as cdk from "aws-cdk-lib";
-import { StackProps } from "aws-cdk-lib";
+import type { StackProps } from "aws-cdk-lib";
 import "source-map-support/register";
 import { GithubActionsStack } from "../lib/deployment-stack";
 import { RemixStack } from "../lib/remix-stack";

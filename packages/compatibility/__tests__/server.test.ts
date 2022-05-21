@@ -1,6 +1,6 @@
 import fsp from "fs/promises";
 import path from "path";
-import lambdaTester from "lambda-tester";
+import * as lambdaTester from "lambda-tester";
 import type { APIGatewayProxyEventV2 } from "aws-lambda";
 import {
   // This has been added as a global in node 15+
@@ -25,6 +25,7 @@ jest.mock("@remix-run/node", () => {
     createRequestHandler: jest.fn(),
   };
 });
+
 let mockedCreateRequestHandler =
   createRemixRequestHandler as jest.MockedFunction<
     typeof createRemixRequestHandler
@@ -88,8 +89,12 @@ describe("architect createRequestHandler", () => {
         return new Response(`URL: ${new URL(req.url).pathname}`);
       });
 
-      await lambdaTester(createRequestHandler({ build: undefined } as any))
-        .event(createMockEvent({ rawPath: "/foo/bar" }))
+      const event = createMockEvent({ rawPath: "/foo/bar" });
+      const handler = createRequestHandler({ build: undefined } as any);
+
+      await lambdaTester(handler)
+        .event(event)
+        // @ts-expect-error
         .expectResolve((res) => {
           expect(res.statusCode).toBe(200);
           expect(res.body).toBe("URL: /foo/bar");
@@ -103,6 +108,7 @@ describe("architect createRequestHandler", () => {
 
       await lambdaTester(createRequestHandler({ build: undefined } as any))
         .event(createMockEvent({ rawPath: "/foo/bar" }))
+        // @ts-expect-error
         .expectResolve((res) => {
           expect(res.statusCode).toBe(200);
         });
@@ -115,6 +121,7 @@ describe("architect createRequestHandler", () => {
 
       await lambdaTester(createRequestHandler({ build: undefined } as any))
         .event(createMockEvent({ rawPath: "/foo/bar" }))
+        // @ts-expect-error
         .expectResolve((res) => {
           expect(res.statusCode).toBe(204);
         });
@@ -142,6 +149,7 @@ describe("architect createRequestHandler", () => {
 
       await lambdaTester(createRequestHandler({ build: undefined } as any))
         .event(createMockEvent({ rawPath: "/" }))
+        // @ts-expect-error
         .expectResolve((res) => {
           expect(res.statusCode).toBe(200);
           expect(res.headers["x-time-of-year"]).toBe("most wonderful");
@@ -247,7 +255,7 @@ describe("architect createRemixHeaders", () => {
 });
 
 describe("architect createRemixRequest", () => {
-  it("creates a request with the correct headers", () => {
+  it.only("creates a request with the correct headers", () => {
     expect(
       createRemixRequest(
         createMockEvent({

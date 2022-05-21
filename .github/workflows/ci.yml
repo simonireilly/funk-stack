@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 env:
-  AWS_ACCOUNT_ID: 199114905090
+  AWS_ACCOUNT_ID: 199116905090
   AWS_REGION: "eu-west-1"
 
 defaults:
@@ -35,7 +35,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: "yarn"
 
       - name: ⚙️ Install deps
@@ -57,7 +57,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: "yarn"
 
       - name: ⚙️ Install deps
@@ -79,7 +79,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: "yarn"
 
       - name: ⚙️ Install deps
@@ -104,7 +104,7 @@ jobs:
   #     - name: ⎔ Setup node
   #       uses: actions/setup-node@v3
   #       with:
-  #         node-version: 14
+  #         node-version: 16
 
   #     - name: 🏗 Build
   #       run: yarn build
@@ -132,7 +132,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           cache: "yarn"
 
       - name: ⚙️ Install deps

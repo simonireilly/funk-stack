@@ -1,6 +1,7 @@
-import { RemovalPolicy, Stack, StackProps } from "aws-cdk-lib";
+import type { StackProps } from "aws-cdk-lib";
+import { RemovalPolicy, Stack } from "aws-cdk-lib";
 import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
-import { Construct } from "constructs";
+import type { Construct } from "constructs";
 
 export interface ITables {
   readonly sessionsTable: Table;

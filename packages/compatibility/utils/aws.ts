@@ -3,7 +3,13 @@ import { captureAWSClient } from "aws-xray-sdk";
 import { APIGatewayProxyEventV2, Context } from "aws-lambda";
 import pino from "pino";
 
-AWS.config.logger = console;
+console.info("Check AWS", {
+  AWS,
+});
+
+if (AWS) {
+  AWS.config.logger = console;
+}
 
 const baseClient = new DynamoDB();
 

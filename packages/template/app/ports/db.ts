@@ -9,7 +9,10 @@
  *
  */
 // @ts-ignore
-import { documentClient, capturedClient } from "@remix-vendor/cdk";
+import {
+  documentClient,
+  capturedClient,
+} from "@remix-aws/lambda-compatibility";
 
 export const db = {
   tables: {

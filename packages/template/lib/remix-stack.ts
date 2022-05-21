@@ -3,14 +3,15 @@ import {
   HttpLambdaIntegration,
   HttpUrlIntegration,
 } from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
-import { CfnOutput, Stack, StackProps } from "aws-cdk-lib";
+import type { StackProps } from "aws-cdk-lib";
+import { CfnOutput, Stack } from "aws-cdk-lib";
 import { Tracing } from "aws-cdk-lib/aws-lambda";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Bucket } from "aws-cdk-lib/aws-s3";
 import { BucketDeployment, Source } from "aws-cdk-lib/aws-s3-deployment";
-import { Construct } from "constructs";
+import type { Construct } from "constructs";
 import { join } from "path";
-import { ITables } from "./tables-stack";
+import type { ITables } from "./tables-stack";
 
 /**
  * This stack deploys remix server to an AWS lambda behind a HTTP APIGateway

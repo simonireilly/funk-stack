@@ -1,88 +1,30 @@
 {
-  "name": "funk-stack-template",
-  "description": "",
-  "dependencies": {
-    "@remix-run/node": "*",
-    "@remix-run/react": "*",
-    "@remix-run/server-runtime": "*",
-    "aws-xray-sdk": "^3.3.4",
-    "bcryptjs": "2.4.3",
-    "cuid": "^2.1.8",
-    "pino": "7.10.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "tiny-invariant": "^1.2.0"
-  },
+  "name": "remix-aws",
+  "version": "1.0.0",
+  "author": "simonireilly <simonireilly@gmail.com>",
   "devDependencies": {
-    "@aws-cdk/aws-apigatewayv2-alpha": "^2.20.0-alpha.0",
-    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.20.0-alpha.0",
-    "@faker-js/faker": "^6.1.1",
-    "@remix-run/dev": "*",
-    "@remix-run/eslint-config": "*",
-    "@testing-library/cypress": "^8.0.2",
-    "@testing-library/jest-dom": "^5.16.3",
-    "@testing-library/react": "^12.1.4",
-    "@testing-library/user-event": "^14.0.4",
-    "@types/aws-lambda": "^8.10.97",
-    "@types/bcryptjs": "2.4.2",
-    "@types/eslint": "^8.4.1",
-    "@types/lambda-tester": "^3.6.1",
-    "@types/react": "^17.0.43",
-    "@types/react-dom": "^17.0.14",
-    "@vitejs/plugin-react": "^1.3.0",
-    "aws-cdk": "2.20.0",
-    "aws-cdk-lib": "^2.20.0",
-    "aws-sdk": "^2.1140.0",
-    "c8": "^7.11.0",
-    "constructs": "^10.0.0",
-    "cross-env": "^7.0.3",
-    "cypress": "^9.5.3",
-    "esbuild": "^0.14.29",
-    "eslint": "^8.12.0",
-    "eslint-config-prettier": "^8.5.0",
-    "folder-hash": "^4.0.2",
-    "happy-dom": "^2.55.0",
-    "mock-aws-s3": "^4.0.2",
-    "msw": "^0.39.2",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.6.1",
-    "prettier-plugin-tailwindcss": "^0.1.8",
-    "source-map-support": "^0.5.16",
-    "start-server-and-test": "^1.14.0",
-    "tailwindcss": "^3.0.23",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.3",
-    "vite-tsconfig-paths": "^3.4.1",
-    "vitest": "^0.8.2"
+    "lerna": "^4.0.0",
+    "syncpack": "^7.2.1"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "private": true,
+  "repository": "git@github.com:simonireilly/funk-stack.git",
+  "scripts": {
+    "build": "lerna run --parallel build",
+    "dev": "lerna run --parallel dev",
+    "fmt": "syncpack fix-mismatches && syncpack format",
+    "lint": "lerna run --parallel lint",
+    "lint:fix": "lerna run --parallel lint -- --fix",
+    "test": "lerna run --parallel test",
+    "typecheck": "lerna run --parallel typecheck"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
   },
   "engines": {
     "node": ">=14"
-  },
-  "eslintIgnore": [
-    "/node_modules",
-    "/server/index.js",
-    "/public/build"
-  ],
-  "license": "",
-  "prettier": {},
-  "private": true,
-  "scripts": {
-    "build": "run-s build:*",
-    "build:css": "npm run generate:css -- --minify",
-    "build:remix": "remix build",
-    "dev": "run-p dev:*",
-    "dev:arc": "cdk watch",
-    "dev:css": "npm run generate:css -- --watch",
-    "dev:remix": "remix watch",
-    "cdk": "cdk",
-    "format": "prettier --write .",
-    "generate:css": "tailwindcss -o ./app/styles/tailwind.css",
-    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "test": "vitest",
-    "test:e2e:dev": "start-server-and-test dev http://localhost:3000 \"npx cypress open\"",
-    "test:e2e:run": "cross-env PORT=8811 start-server-and-test dev http://localhost:8811 \"npx cypress run\"",
-    "typecheck": "tsc -b && tsc -b cypress",
-    "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run"
-  },
-  "sideEffects": false
+  }
 }
