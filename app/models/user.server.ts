@@ -1,3 +1,4 @@
+// @ts-ignore
 import { documentClient } from "@remix-vendor/cdk";
 import bcrypt from "bcryptjs";
 import invariant from "tiny-invariant";

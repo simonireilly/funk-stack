@@ -1,6 +1,6 @@
 import AWS, { DynamoDB } from "aws-sdk";
 import { captureAWSClient } from "aws-xray-sdk";
-import { APIGatewayProxyEventV2, Context } from "@types/aws-lambda";
+import { APIGatewayProxyEventV2, Context } from "aws-lambda";
 import pino from "pino";
 
 AWS.config.logger = console;
