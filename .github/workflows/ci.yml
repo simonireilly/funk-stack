@@ -146,6 +146,9 @@ jobs:
 
       - run: yarn install
 
+      - name: Build app
+        run: yarn build
+
       - name: Synth infrastructure stack
         run: yarn cdk synth
 
