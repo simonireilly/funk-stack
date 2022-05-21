@@ -9,6 +9,7 @@ on:
       - main
       - dev
 permissions:
+  id-token: write
   actions: write
   contents: read
 
