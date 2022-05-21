@@ -1,4 +1,4 @@
-name: Bootstrap
+name: 🥾 Bootstrap
 on:
   workflow_dispatch:
     inputs:

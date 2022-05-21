@@ -1,4 +1,4 @@
-name: 🚀 Deploy
+name: 🚀 CI
 on:
   push:
     branches:
@@ -11,6 +11,10 @@ on:
 permissions:
   actions: write
   contents: read
+
+env:
+  AWS_ACCOUNT_ID: 1122334455
+  AWS_REGION: "eu-west-1"
 
 defaults:
   run:
@@ -31,6 +35,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: "yarn"
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
@@ -54,6 +59,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: "yarn"
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
@@ -77,6 +83,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: "yarn"
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
@@ -136,11 +143,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: "yarn"
 
       - name: Assume role using OIDC
         uses: aws-actions/configure-aws-credentials@master
         with:
-          role-to-assume: arn:aws:iam::<your-account-id-here>:role/github-ci-role
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/github-ci-role
           aws-region: ${{ env.AWS_REGION }}
 
       - run: yarn install
