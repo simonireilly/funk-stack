@@ -8,6 +8,7 @@
  * allowing for xray configuration to fall to the end user to configure
  *
  */
+// @ts-ignore
 import { documentClient, capturedClient } from "@remix-vendor/cdk";
 
 export const db = {
