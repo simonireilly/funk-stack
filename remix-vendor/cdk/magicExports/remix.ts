@@ -2,4 +2,5 @@
 
 // Re-export everything from this package that is available in `remix`.
 
-export { createArcTableSessionStorage } from "@remix-run/architect";
+// @ts-expect-error
+export { createArcTableSessionStorage } from "@remix-run/cdk";
