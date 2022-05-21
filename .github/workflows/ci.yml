@@ -75,6 +75,9 @@ jobs:
           node-version: 14
           cache: "yarn"
 
+      - name: ⚙️ Install deps
+        run: yarn
+
       - name: ⚡ Run vitest
         run: yarn test -- --coverage
 
@@ -95,11 +98,6 @@ jobs:
   #       uses: actions/setup-node@v3
   #       with:
   #         node-version: 14
-
-  #     - name: 📥 Download deps
-  #       uses: bahmutov/npm-install@v1
-  #       with:
-  #         useLockFile: false
 
   #     - name: 🏗 Build
   #       run: yarn build
